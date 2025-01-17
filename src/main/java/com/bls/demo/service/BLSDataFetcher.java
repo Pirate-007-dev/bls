@@ -22,7 +22,7 @@ public class BLSDataFetcher {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(URL);
 
-            // Mimic a human user with enhanced headers
+            
             request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36");
             request.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
             request.addHeader("Accept-Language", "en-US,en;q=0.5");
