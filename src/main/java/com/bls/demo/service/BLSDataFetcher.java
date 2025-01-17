@@ -51,7 +51,7 @@ public class BLSDataFetcher {
             throw new RuntimeException(e);
         }
         try {
-            Thread.sleep(2000); // Wait for 2 seconds between requests
+            Thread.sleep(2000); 
         } catch (InterruptedException e) {
             e.printStackTrace();
 
