@@ -16,20 +16,14 @@ import java.io.IOException;
 public class BLSDataFetcher {
 
     private static final String URL = "https://download.bls.gov/pub/time.series/cu/cu.data.15.USMedical";
-    private static final String API_KEY = "0e8f069aa32b424ea62c17a1680ab549";
+    private static final String EMAIL = "ananthbr23@gmail.com"; // Replace with your email address
 
     public void fetchDataAndSaveToFile() {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(URL);
 
-            
-            request.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36");
-            request.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            request.addHeader("Accept-Language", "en-US,en;q=0.5");
-            request.addHeader("Accept-Encoding", "gzip, deflate, br");
-            request.addHeader("Connection", "keep-alive");
-            request.addHeader("Referer", "https://www.google.com/");
-            request.addHeader("Authorization", "Bearer " + API_KEY);
+            // Use email address as User-Agent as requested
+            request.addHeader("User-Agent", EMAIL);
 
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 int statusCode = response.getCode();
@@ -45,16 +39,19 @@ public class BLSDataFetcher {
                     System.out.println("Failed to fetch data. HTTP Status Code: " + statusCode);
                 }
             } catch (ParseException e) {
+                System.err.println("Failed to parse response: " + e.getMessage());
                 throw new RuntimeException(e);
             }
         } catch (IOException e) {
+            System.err.println("An IO error occurred: " + e.getMessage());
             throw new RuntimeException(e);
         }
-        try {
-            Thread.sleep(2000); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
 
+        try {
+            Thread.sleep(2000); // Wait for 2 seconds between requests
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
     }
 
@@ -62,7 +59,7 @@ public class BLSDataFetcher {
         try (FileWriter writer = new FileWriter("bls_data.txt")) {
             writer.write(content);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed to save data to file: " + e.getMessage());
         }
     }
 }
